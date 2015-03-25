@@ -1,0 +1,18 @@
+{
+  "version": "0.41.0",
+  "name": "language-c",
+  "description": "Atom language support for ROBOTC",
+  "homepage": "https://atom.github.io/language-robotc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dqsully/language-robotc.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/atom/language-robotc/issues"
+  },
+  "engines": {
+    "atom": "*",
+    "node": "*"
+  }
+}
