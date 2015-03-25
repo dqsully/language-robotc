@@ -7,13 +7,13 @@ describe 'Language-ROBOTC', ->
     waitsForPromise ->
       atom.packages.activatePackage('language-robotc')
 
-  describe "C", ->
+  describe "ROBOTC", ->
     beforeEach ->
-      grammar = atom.grammars.grammarForScopeName('source.c')
+      grammar = atom.grammars.grammarForScopeName('source.robotc')
 
     it 'parses the grammar', ->
       expect(grammar).toBeTruthy()
-      expect(grammar.scopeName).toBe 'source.c'
+      expect(grammar.scopeName).toBe 'source.robotc'
 
     it 'tokenizes functions', ->
       lines = grammar.tokenizeLines '''
@@ -22,8 +22,8 @@ describe 'Language-ROBOTC', ->
         }
       '''
 
-      expect(lines[0][0]).toEqual value: 'int', scopes: ["source.c", "storage.type.c"]
-      expect(lines[0][2]).toEqual value: 'something', scopes: ["source.c", "meta.function.c", "entity.name.function.c"]
+      expect(lines[0][0]).toEqual value: 'int', scopes: ["source.robotc", "storage.type.c"]
+      expect(lines[0][2]).toEqual value: 'something', scopes: ["source.robotc", "meta.function.c", "entity.name.function.c"]
 
     describe "indentation", ->
       editor = null
