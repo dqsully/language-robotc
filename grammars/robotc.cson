@@ -22,6 +22,9 @@
     'include': '#comments'
   }
   {
+    'include': 'enum'
+  }
+  {
     'match': '\\b(break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while)\\b'
     'name': 'keyword.control.robotc'
   }
@@ -292,9 +295,6 @@
       }
       {
         'include': '#block'
-      }
-      {
-        'include': '#enum'
       }
       {
         'include': '$base'
