@@ -6,6 +6,9 @@
 'name': 'ROBOTC'
 'patterns': [
   {
+    'include': 'source.c'
+  }
+  {
     'match': '\\b((Backup|n(Avg|Immediate))BatteryLevel|bMotorReflected|motor(Type)?|blfiAutonomousMode|nVexRCReceiveState|nVexMasterVersion|version|bVEXNETActive|nIfiSPIMsgCounts|nVexRCReceiveState|vexRT|Ch[1-6](Xmtr2)?|vexRT|Ch[1-6](Xmtr2)?|Btn([5-8](U|D)|[7-8](L|R))(Xmtr2)?|Accel(X|Y|Z)(Xmtr2)?|b(PlaySounds|Sound(Active|QueueAvailable))|k((DefaultTask|Low|High)Priority)|n(SchedulePriority|ClockMinutes|(Pgm|Sys)Time))\\b'
     'name': 'variable.robotc'
   }
@@ -31,7 +34,4 @@
       '2':
         'name': 'support.function.robotc'
     'match': '(\\s*)\\b(a(bs|cos|sin|tan|tof|toi)c(eil|os(Degrees)?)|degreesToRadians|exp|floor|log(10)?|pow|ra(diansToDegrees|rand(Long)?)|s(gn|in(Degrees)?|rand|qrt)|s(printf|trc(at|mp|py)|n(cat|cmp))|String(Delete|F(ind|ormat|romChars)))\\b'
-  {
-    'include': 'source.c'
-  }
  ]

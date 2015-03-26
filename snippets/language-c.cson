@@ -1,4 +1,4 @@
-'.source.c, .source.cpp, .source.objc, .source.objcpp':
+'.source.robotc':
   '#ifndef … #define … #endif':
     'prefix': 'def'
     'body': '#ifndef ${1:SYMBOL}\n#define $1 ${2:value}\n#endif'

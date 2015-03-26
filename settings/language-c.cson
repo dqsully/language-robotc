@@ -1,4 +1,4 @@
-'.source.c, .source.cpp':
+'.source.robotc':
   'editor':
     'commentStart': '// '
     'increaseIndentPattern': '(?x)
