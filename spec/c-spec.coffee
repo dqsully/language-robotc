@@ -13,7 +13,7 @@ describe 'Language-ROBOTC', ->
 
     it 'parses the grammar', ->
       expect(grammar).toBeTruthy()
-      expect(grammar.scopeName).toBe 'source.c'
+      expect(grammar.scopeName).toBe 'source.robotc'
 
     it 'tokenizes functions', ->
       lines = grammar.tokenizeLines '''
