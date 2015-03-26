@@ -190,7 +190,7 @@
     'include': '#block'
   }
   {
-    'begin': '(?x)\n    \t\t(?:  ^                                 # begin-of-line\n    \t\t  |  \n    \t\t     (?: (?= \\s )           (?<!else|new|return) (?<=\\w)      #  or word + space before name\n    \t\t       | (?= \\s*[A-Za-z_] ) (?<!&&)       (?<=[*&>])   #  or type modifier before name\n    \t\t     )\n    \t\t)\n    \t\t(\\s*) (?!(while|for|do|if|else|switch|catch|enumerate|return|sizeof|[cr]?iterate)\\s*\\()\n    \t\t(\n    \t\t\t(?: [A-Za-z_][A-Za-z0-9_]*+ | :: )++ |                  # actual name\n    \t\t\t(?: (?<=operator) (?: [-*&<>=+!]+ | \\(\\) | \\[\\] ) )  # if it is a C++ operator\n    \t\t)\n    \t\t \\s*(?=\\()'
+    'begin': '(?x)\n    \t\t(?:  ^                                 # begin-of-line\n    \t\t  |  \n    \t\t     (?: (?= \\s )           (?<!else|new|return) (?<=\\w)      #  or word + space before name\n    \t\t       | (?= \\s*[A-Za-z_] ) (?<!&&)       (?<=[*&>])   #  or type modifier before name\n    \t\t     )\n    \t\t)\n    \t\t(\\s*) (?!(while|for|do|if|else|switch|catch|enumerate|return|sizeof|[cr]?iterate)\\s*\\()\n    \t\t(\n    \t\t\t(?: [A-Za-z_][A-Za-z0-9_]*+ | :: )++ |                  # actual name\n    \t\t)\n    \t\t \\s*(?=\\()'
     'beginCaptures':
       '1':
         'name': 'punctuation.whitespace.function.leading.robotc'
@@ -248,12 +248,12 @@
     'patterns': [
       {
         'captures':
-          '1':
-            'name': 'punctuation.section.enum.begin.robotc'
+          # '1':
+          #   'name': 'punctuation.section.enum.begin.robotc'
           '2':
             'name': 'constant.language.robotc'
-          '3':
-            'name': 'punctuation.section.enum.end.robotc'
+          # '3':
+          #   'name': 'punctuation.section.enum.end.robotc'
         'name': 'meta.enum.robotc'
         'match': '(\\[\\s*)(baudRate(1200|2400|4800|9600|14400|19200|28800|38400|57600|76800|100000|115200|200000|230400|250000|Undefined)|SENDFILE|SEARCH|STOPSEARCH|CONNECT|DISCONNECT(ALL)?|REMOVEDEVICE|VISIBILITY|SETCMDMODE|OPENSTREAM|SENDDATA|FACTORYRESET|BT(ON|OFF)|SETBTNAME|EXTREAD|PinReq|CONNECTREQ|IDLE|LinkQualityReq|op(SetRawDataMode|SetDefaultPIN|GetDefaultPIN|SetSessionPIN|GetSessionPIN|ResetSessionPIN|GetFriendlyName|GetBTAddress|GetMyContactInfo)|k(NoButton|ExitButton|RightButton|LeftButton|EnterButton)|ioRslt(Success|InProgress|ReqPIN|NoMoreHandles|NoSpace|EofExpected|EndOfFile|NotLinearFile|FileNotFound|HandleAlreadyClosed|NoLinearSpace|UndefinedError|FileIsBusy|NoWriteBuffers|AppendNotPossible|File(IsFull|Exists)|ModuleNotFound|OutOfBoundery|Illegal(Filename|Handle)|BT(Busy|ConnectFail|Timeout)|FileTx(Timeout|DSTExists|SRCMissing|StreamError|CloseError)|Comm(ChannelBusError|BufferFull|ChannelBad|ChannelNotReady)|CommPending|EmptyMailbox|BadArgs)|ERR_(COMM_BUFFER_FULL|COMM_CHAN_INVALID|INVALID_(PORT|FIELD|QUEUE|SIZE))|NO_ERR|STAT_COMM_PENDING|ERR_COMM_(CHAN_NOT_READY|BUS_ERR)|mailbox(1-20)|mtr(NoReg|SpeedReg|SyncRegMaster|RegSlave|EncoderReg)|runState(Idle|RampUp|Running|RampDown|HoldPosition)|joy1_(x1|x2|y1|y2|Buttons|TopHat)|s[1-4]|in[1-16]|dgtl[1-12]|I2C_[1-8]|angl[0-5]|uart(SystemCommPort|UserControl|VEXLCD|XBeeZigBee|XBeeWiFi|CMUCAM|SerialGPS)|sound(Blip|BeepBeet|DownwardTones|UpwardTones|LowBuzz|FastUpwardTones|ShortBlip|Exception|LowBuzzShort)|synch(None|A(B|C)|B(A|C)|C(A|B))|T[1-4]|uart(One|Two)|UART[0-3]|Ch[1-6](Xmtr2)?|Btn([5-8](U|D)|[7-8](L|R))(Xmtr2)?|Accel(X|Y|Z)(Xmtr2)?|vr(NoXmiters|Xmit[1-2]|Bit2|CompetitionSwitch|ResetSlave|GameController|AutonomousMode|Disabled))(\\s*\\])'
       }
