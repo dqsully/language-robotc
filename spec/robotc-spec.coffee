@@ -22,8 +22,16 @@ describe 'Language-ROBOTC', ->
         }
       '''
 
-      expect(lines[0][0]).toEqual value: 'int', scopes: ["source.robotc", "storage.type.c"]
-      expect(lines[0][2]).toEqual value: 'something', scopes: ["source.robotc", "meta.function.c", "entity.name.function.c"]
+      expect(lines[0][0]).toEqual value: 'int', scopes: ["source.robotc", "storage.type.robotc"]
+      expect(lines[0][2]).toEqual value: 'something', scopes: ["source.robotc", "meta.function.robotc", "entity.name.function.robotc"]
+
+    it 'tokenizes enums', ->
+      lines = grammar.tokenizeLines '''
+        TBaudRate[baudRateUndefined]
+      '''
+
+      expect(lines[0][0]).toEqual value: 'TBaudRate', scopes: ["source.robotc", "storage.type.robotc"]
+      expect(lines[0][2]).toEqual value: 'baudRateUndefined', scopes: ["source.robotc", "meta.enum.robotc", "constant.language.robotc"]
 
     describe "indentation", ->
       editor = null
