@@ -5,40 +5,614 @@
 'firstLineMatch': '-[*]-( Mode:)? ROBOTC -[*]-'
 'name': 'ROBOTC'
 'patterns': [
-  # Based on C
-  {
-    'include': 'source.c'
-  }
-  # RobotC Variables
   {
     'match': '\\b((Backup|n(Avg|Immediate))BatteryLevel|bMotorReflected|motor(Type)?|blfiAutonomousMode|nVexRCReceiveState|nVexMasterVersion|version|bVEXNETActive|nIfiSPIMsgCounts|nVexRCReceiveState|vexRT|Ch[1-6](Xmtr2)?|vexRT|Ch[1-6](Xmtr2)?|Btn([5-8](U|D)|[7-8](L|R))(Xmtr2)?|Accel(X|Y|Z)(Xmtr2)?|b(PlaySounds|Sound(Active|QueueAvailable))|k((DefaultTask|Low|High)Priority)|n(SchedulePriority|ClockMinutes|(Pgm|Sys)Time))\\b'
     'name': 'variable.language.robotc'
   }
-  # RobotC Variable Types
   {
-    'match': '\\b(task|word|byte|ubyte|T(BaudRate|BTCommands|Buttons|FileHandle|FileIOResult|I2CStatus|MailboxIDs|MotorRegulation|NxtRunState|PCJoystick|SerialPortMode|Sounds|SynchedMotors|Timers|UARTs|Vex(Joysticks|ReceiverState))|tSensors)\\b'
+    'include': '#preprocessor-rule-enabled'
+  }
+  {
+    'include': '#preprocessor-rule-disabled'
+  }
+  {
+    'include': '#preprocessor-rule-other'
+  }
+  {
+    'include': '#comments'
+  }
+  {
+    'match': '\\b(break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while)\\b'
+    'name': 'keyword.control.robotc'
+  }
+  {
+    'match': '\\b(bool|char|float|int|long|short|signed|struct|typedef|union|unsigned|void|task|word|byte|ubyte|T(BaudRate|BTCommands|Buttons|FileHandle|FileIOResult|I2CStatus|MailboxIDs|MotorRegulation|NxtRunState|PCJoystick|SerialPortMode|Sounds|SynchedMotors|Timers|UARTs|Vex(Joysticks|ReceiverState))|tSensors)\\b'
     'name': 'storage.type.robotc'
   }
-  # RobotC Functions
+  {
+    'match': '\\b(const|extern|register|restrict|static|volatile|inline)\\b'
+    'name': 'storage.modifier.robotc'
+  }
+  {
+    'comment': 'common C constant naming idiom -- kConstantVariable'
+    'match': '\\bk[A-Z]\\w*\\b'
+    'name': 'constant.other.variable.mac-classic.robotc'
+  }
+  {
+    'match': '\\bg[A-Z]\\w*\\b'
+    'name': 'variable.other.readwrite.global.mac-classic.robotc'
+  }
+  {
+    'match': '\\bs[A-Z]\\w*\\b'
+    'name': 'variable.other.readwrite.static.mac-classic.robotc'
+  }
+  {
+    'match': '\\b(NULL|true|false|TRUE|FALSE)\\b'
+    'name': 'constant.language.robotc'
+  }
+  {
+    'include': '#sizeof'
+  }
+  {
+    'match': '\\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\\.?[0-9]*)|(\\.[0-9]+))((e|E)(\\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\\b'
+    'name': 'constant.numeric.robotc'
+  }
+  {
+    'begin': '"'
+    'beginCaptures':
+      '0':
+        'name': 'punctuation.definition.string.begin.robotc'
+    'end': '"'
+    'endCaptures':
+      '0':
+        'name': 'punctuation.definition.string.end.robotc'
+    'name': 'string.quoted.double.robotc'
+    'patterns': [
+      {
+        'include': '#string_escaped_char'
+      }
+      {
+        'include': '#string_placeholder'
+      }
+    ]
+  }
+  {
+    'begin': '\''
+    'beginCaptures':
+      '0':
+        'name': 'punctuation.definition.string.begin.robotc'
+    'end': '\''
+    'endCaptures':
+      '0':
+        'name': 'punctuation.definition.string.end.robotc'
+    'name': 'string.quoted.single.robotc'
+    'patterns': [
+      {
+        'include': '#string_escaped_char'
+      }
+    ]
+  }
+  {
+    'begin': '(?x)\n        \t\t^\\s*\\#\\s*(define)\\s+             # define\n        \t\t((?<id>[a-zA-Z_][a-zA-Z0-9_]*))  # macro name\n        \t\t(?:                              # and optionally:\n        \t\t    (\\()                         # an open parenthesis\n        \t\t        (\n        \t\t            \\s* \\g<id> \\s*       # first argument\n        \t\t            ((,) \\s* \\g<id> \\s*)*  # additional arguments\n        \t\t            (?:\\.\\.\\.)?          # varargs ellipsis?\n        \t\t        )\n        \t\t    (\\))                         # a close parenthesis\n        \t\t)?\n        \t'
+    'beginCaptures':
+      '1':
+        'name': 'keyword.control.import.define.robotc'
+      '2':
+        'name': 'entity.name.function.preprocessor.robotc'
+      '4':
+        'name': 'punctuation.definition.parameters.begin.robotc'
+      '5':
+        'name': 'variable.parameter.preprocessor.robotc'
+      '7':
+        'name': 'punctuation.separator.parameters.robotc'
+      '8':
+        'name': 'punctuation.definition.parameters.end.robotc'
+    'end': '(?=(?://|/\\*))|(?<!\\\\)(?=\\n)'
+    'name': 'meta.preprocessor.macro.robotc'
+    'patterns': [
+      {
+        'match': '(?>\\\\\\s*\\n)'
+        'name': 'punctuation.separator.continuation.robotc'
+      }
+      {
+        'include': '$base'
+      }
+    ]
+  }
+  {
+    'begin': '^\\s*#\\s*(error|warning)\\b'
+    'captures':
+      '1':
+        'name': 'keyword.control.import.error.robotc'
+    'end': '(?<!\\\\)(?=\\n)'
+    'name': 'meta.preprocessor.diagnostic.robotc'
+    'patterns': [
+      {
+        'match': '(?>\\\\\\s*\\n)'
+        'name': 'punctuation.separator.continuation.robotc'
+      }
+    ]
+  }
+  {
+    'begin': '^\\s*#\\s*(include|import)\\b\\s+'
+    'captures':
+      '1':
+        'name': 'keyword.control.import.include.robotc'
+    'end': '(?=(?://|/\\*))|(?<!\\\\)(?=\\n)'
+    'name': 'meta.preprocessor.c.include'
+    'patterns': [
+      {
+        'match': '(?>\\\\\\s*\\n)'
+        'name': 'punctuation.separator.continuation.robotc'
+      }
+      {
+        'begin': '"'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.string.begin.robotc'
+        'end': '"'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.string.end.robotc'
+        'name': 'string.quoted.double.include.robotc'
+      }
+      {
+        'begin': '<'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.string.begin.robotc'
+        'end': '>'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.string.end.robotc'
+        'name': 'string.quoted.other.lt-gt.include.robotc'
+      }
+    ]
+  }
+  {
+    'include': '#pragma-mark'
+  }
+  {
+    'begin': '^\\s*#\\s*(define|defined|elif|else|if|ifdef|ifndef|line|pragma|undef)\\b'
+    'captures':
+      '1':
+        'name': 'keyword.control.import.robotc'
+    'end': '(?=(?://|/\\*))|(?<!\\\\)(?=\\n)'
+    'name': 'meta.preprocessor.robotc'
+    'patterns': [
+      {
+        'match': '(?>\\\\\\s*\\n)'
+        'name': 'punctuation.separator.continuation.robotc'
+      }
+    ]
+  }
+  {
+    'include': '#block'
+  }
+  {
+    'begin': '(?x)\n    \t\t(?:  ^                                 # begin-of-line\n    \t\t  |  \n    \t\t     (?: (?= \\s )           (?<!else|new|return) (?<=\\w)      #  or word + space before name\n    \t\t       | (?= \\s*[A-Za-z_] ) (?<!&&)       (?<=[*&>])   #  or type modifier before name\n    \t\t     )\n    \t\t)\n    \t\t(\\s*) (?!(while|for|do|if|else|switch|catch|enumerate|return|sizeof|[cr]?iterate)\\s*\\()\n    \t\t(\n    \t\t\t(?: [A-Za-z_][A-Za-z0-9_]*+ | :: )++ |                  # actual name\n    \t\t\t(?: (?<=operator) (?: [-*&<>=+!]+ | \\(\\) | \\[\\] ) )  # if it is a C++ operator\n    \t\t)\n    \t\t \\s*(?=\\()'
+    'beginCaptures':
+      '1':
+        'name': 'punctuation.whitespace.function.leading.robotc'
+      '3':
+        'name': 'entity.name.function.robotc'
+      '4':
+        'name': 'punctuation.definition.parameters.robotc'
+    'end': '(?<=\\})|(?=#)|(;)'
+    'name': 'meta.function.robotc'
+    'patterns': [
+      {
+        'include': '#comments'
+      }
+      {
+        'include': '#parens'
+      }
+      {
+        'match': '\\b(const|override|final)\\b'
+        'name': 'storage.modifier.robotc'
+      }
+      {
+        'include': '#block'
+      }
+    ]
+  }
+]
+'repository':
+  'access':
+    'captures':
+      '1':
+        'name': 'punctuation.separator.variable-access.robotc'
+      '2':
+        'name': 'variable.other.dot-access.robotc'
+    'match': '(\\.)([a-zA-Z_][a-zA-Z_0-9]*)\\b(?!\\s*\\()'
+  'block':
+    'patterns': [
+      {
+        'begin': '\\{'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.section.block.begin.robotc'
+        'end': '\\}'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.section.block.end.robotc'
+        'name': 'meta.block.robotc'
+        'patterns': [
+          {
+            'include': '#block_innards'
+          }
+        ]
+      }
+    ]
+  'enum':
+    'patterns': [
+      {
+        'captures':
+          '1':
+            'name': 'punctuation.section.enum.begin.robotc'
+          '2':
+            'name': 'constant.language.robotc'
+          '3':
+            'name': 'punctuation.section.enum.end.robotc'
+        'name': 'meta.enum.robotc'
+        'match': '(\\[\\s*)(baudRate(1200|2400|4800|9600|14400|19200|28800|38400|57600|76800|100000|115200|200000|230400|250000|Undefined)|SENDFILE|SEARCH|STOPSEARCH|CONNECT|DISCONNECT(ALL)?|REMOVEDEVICE|VISIBILITY|SETCMDMODE|OPENSTREAM|SENDDATA|FACTORYRESET|BT(ON|OFF)|SETBTNAME|EXTREAD|PinReq|CONNECTREQ|IDLE|LinkQualityReq|op(SetRawDataMode|SetDefaultPIN|GetDefaultPIN|SetSessionPIN|GetSessionPIN|ResetSessionPIN|GetFriendlyName|GetBTAddress|GetMyContactInfo)|k(NoButton|ExitButton|RightButton|LeftButton|EnterButton)|ioRslt(Success|InProgress|ReqPIN|NoMoreHandles|NoSpace|EofExpected|EndOfFile|NotLinearFile|FileNotFound|HandleAlreadyClosed|NoLinearSpace|UndefinedError|FileIsBusy|NoWriteBuffers|AppendNotPossible|File(IsFull|Exists)|ModuleNotFound|OutOfBoundery|Illegal(Filename|Handle)|BT(Busy|ConnectFail|Timeout)|FileTx(Timeout|DSTExists|SRCMissing|StreamError|CloseError)|Comm(ChannelBusError|BufferFull|ChannelBad|ChannelNotReady)|CommPending|EmptyMailbox|BadArgs)|ERR_(COMM_BUFFER_FULL|COMM_CHAN_INVALID|INVALID_(PORT|FIELD|QUEUE|SIZE))|NO_ERR|STAT_COMM_PENDING|ERR_COMM_(CHAN_NOT_READY|BUS_ERR)|mailbox(1-20)|mtr(NoReg|SpeedReg|SyncRegMaster|RegSlave|EncoderReg)|runState(Idle|RampUp|Running|RampDown|HoldPosition)|joy1_(x1|x2|y1|y2|Buttons|TopHat)|s[1-4]|in[1-16]|dgtl[1-12]|I2C_[1-8]|angl[0-5]|uart(SystemCommPort|UserControl|VEXLCD|XBeeZigBee|XBeeWiFi|CMUCAM|SerialGPS)|sound(Blip|BeepBeet|DownwardTones|UpwardTones|LowBuzz|FastUpwardTones|ShortBlip|Exception|LowBuzzShort)|synch(None|A(B|C)|B(A|C)|C(A|B))|T[1-4]|uart(One|Two)|UART[0-3]|Ch[1-6](Xmtr2)?|Btn([5-8](U|D)|[7-8](L|R))(Xmtr2)?|Accel(X|Y|Z)(Xmtr2)?|vr(NoXmiters|Xmit[1-2]|Bit2|CompetitionSwitch|ResetSlave|GameController|AutonomousMode|Disabled))(\\s*\\])'
+      }
+    ]
+  'block_innards':
+    'patterns': [
+      {
+        'include': '#preprocessor-rule-enabled-block'
+      }
+      {
+        'include': '#preprocessor-rule-disabled-block'
+      }
+      {
+        'include': '#preprocessor-rule-other-block'
+      }
+      {
+        'include': '#sizeof'
+      }
+      {
+        'include': '#access'
+      }
+      {
+        'include': '#librobotc'
+      }
+      {
+        'include': '#c_function_call'
+      }
+      {
+        'captures':
+          '1':
+            'name': 'variable.other.robotc'
+          '2':
+            'name': 'punctuation.definition.parameters.robotc'
+        'match': '(?x)\n\t\t\t        (?x)\n\t\t\t(?:  \n\t\t\t     (?: (?= \\s )           (?<!else|new|return) (?<=\\w)\\s+      #  or word + space before name\n\t\t\t     )\n\t\t\t)\n\t\t\t(\n\t\t\t\t(?: [A-Za-z_][A-Za-z0-9_]*+ | :: )++    |              # actual name\n\t\t\t\t(?: (?<=operator) (?: [-*&<>=+!]+ | \\(\\) | \\[\\] ) )  # if it is a C++ operator\n\t\t\t)\n\t\t\t \\s*(\\()'
+        'name': 'meta.initialization.robotc'
+      }
+      {
+        'include': '#block'
+      }
+      {
+        'include': '#enum'
+      }
+      {
+        'include': '$base'
+      }
+    ]
+  'c_function_call':
+    'captures':
+      '1':
+        'name': 'punctuation.whitespace.function-call.leading.robotc'
+      '2':
+        'name': 'support.function.any-method.robotc'
+      '3':
+        'name': 'punctuation.definition.parameters.robotc'
+    'match': '(?x) (?: (?= \\s )  (?:(?<=else|new|return) | (?<!\\w)) (\\s+))?\n\t\t\t(\\b \n\t\t\t\t(?!(while|for|do|if|else|switch|catch|enumerate|return|sizeof|[cr]?iterate)\\s*\\()(?:(?!NS)[A-Za-z_][A-Za-z0-9_]*+\\b | :: )++                  # actual name\n\t\t\t)\n\t\t\t \\s*(\\()'
+    'name': 'meta.function-call.robotc'
+  'comments':
+    'patterns': [
+      {
+        'captures':
+          '1':
+            'name': 'meta.toc-list.banner.block.robotc'
+        'match': '^/\\* =(\\s*.*?)\\s*= \\*/$\\n?'
+        'name': 'comment.block.robotc'
+      }
+      {
+        'begin': '/\\*'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.comment.begin.robotc'
+        'end': '\\*/'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.comment.end.robotc'
+        'name': 'comment.block.robotc'
+      }
+      {
+        'match': '\\*/.*\\n'
+        'name': 'invalid.illegal.stray-comment-end.robotc'
+      }
+      {
+        'captures':
+          '1':
+            'name': 'meta.toc-list.banner.line.robotc'
+        'match': '^// =(\\s*.*?)\\s*=\\s*$\\n?'
+        'name': 'comment.line.banner.c++'
+      }
+      {
+        'begin': '(^[ \\t]+)?(?=//)'
+        'beginCaptures':
+          '1':
+            'name': 'punctuation.whitespace.comment.leading.c++'
+        'end': '(?!\\G)'
+        'patterns': [
+          {
+            'begin': '//'
+            'beginCaptures':
+              '0':
+                'name': 'punctuation.definition.comment.c++'
+            'end': '\\n'
+            'name': 'comment.line.double-slash.c++'
+            'patterns': [
+              {
+                'match': '(?>\\\\\\s*\\n)'
+                'name': 'punctuation.separator.continuation.c++'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  'disabled':
+    'begin': '^\\s*#\\s*if(n?def)?\\b.*$'
+    'comment': 'eat nested preprocessor if(def)s'
+    'end': '^\\s*#\\s*endif\\b'
+    'patterns': [
+      {
+        'include': '#disabled'
+      }
+      {
+        'include': '#pragma-mark'
+      }
+    ]
   'librobotc':
     'captures':
       '1':
         'name': 'punctuation.whitespace.support.function.leading.robotc'
       '2':
         'name': 'support.function.robotc'
-    'match': '(\\s*)\\b(clearLCDLine|displayLCD(CenteredString|Char|Number|Pos|String)|displayNextLCD(Char|Number|String|Position)|getEncoderForMotor|mapEncoderToMotor|Sensor(Boolean|Raw|Type|Value)|mem(cpy|set)|(get|send)Char|setBaudRate|ClearSounds|MuteSound|Play(ImmediateTone|Sound|Tone)|UnmuteSound|abortTimeslice|(hog|release)CPU|(Start|Stop)Task|StopAllTasks|ClearTimer|time1[(0|00)?]|robotType|wait((InMilliseconds)?)|10?Msec|(start|stop)Motor|setServo|forward|backward|(point|swing)Turn|stop|(lineTrack|moveStraight)For(Time|Rotations)|(tank|arcade|(start|stop)Joystick)Control|until(Touch|Release|Bump|(Sonar|Potentiometer)(Greater|Less)Than|ButtonPress|Light|Dark|Rotations|EncoderCounts)|turn(LED|Flashlight)(On|Off))\\b'
-  # RobotC 'C' Functions
-  'librobotcbase':
+    'match': '(\\s*)\\b(a(bs|cos|sin|tan|tof|toi)|c(eil|os(Degrees)?)|degreesToRadians|exp|floor|log(10)?|pow|ra(diansToDegrees|rand(Long)?)|s(gn|in(Degrees)?|rand|qrt)|s(printf|trc(at|mp|py)|n(cat|cmp))|String(Delete|F(ind|ormat|romChars))|clearLCDLine|displayLCD(CenteredString|Char|Number|Pos|String)|displayNextLCD(Char|Number|String|Position)|getEncoderForMotor|mapEncoderToMotor|Sensor(Boolean|Raw|Type|Value)|mem(cpy|set)|(get|send)Char|setBaudRate|ClearSounds|MuteSound|Play(ImmediateTone|Sound|Tone)|UnmuteSound|abortTimeslice|(hog|release)CPU|(Start|Stop)Task|StopAllTasks|ClearTimer|time1[(0|00)?]|robotType|wait((InMilliseconds)?)|10?Msec|(start|stop)Motor|setServo|forward|backward|(point|swing)Turn|stop|(lineTrack|moveStraight)For(Time|Rotations)|(tank|arcade|(start|stop)Joystick)Control|until(Touch|Release|Bump|(Sonar|Potentiometer)(Greater|Less)Than|ButtonPress|Light|Dark|Rotations|EncoderCounts)|turn(LED|Flashlight)(On|Off))\\b'
+  'parens':
+    'begin': '\\('
+    'beginCaptures':
+      '0':
+        'name': 'punctuation.section.parens.begin.robotc'
+    'end': '\\)'
+    'endCaptures':
+      '0':
+        'name': 'punctuation.section.parens.end.robotc'
+    'name': 'meta.parens.robotc'
+    'patterns': [
+      {
+        'include': '$base'
+      }
+    ]
+  'pragma-mark':
     'captures':
       '1':
-        'name': 'punctuation.whitespace.support.function.leading.robotc'
+        'name': 'meta.preprocessor.robotc'
       '2':
-        'name': 'support.function.robotc'
-    'match': '(\\s*)\\b(a(bs|cos|sin|tan|tof|toi)c(eil|os(Degrees)?)|degreesToRadians|exp|floor|log(10)?|pow|ra(diansToDegrees|rand(Long)?)|s(gn|in(Degrees)?|rand|qrt)|s(printf|trc(at|mp|py)|n(cat|cmp))|String(Delete|F(ind|ormat|romChars)))\\b'
-  # RobotC Enums
-  {
+        'name': 'keyword.control.import.pragma.robotc'
+      '3':
+        'name': 'meta.toc-list.pragma-mark.robotc'
+    'match': '^\\s*(#\\s*(pragma\\s+mark)\\s+(.*))'
+    'name': 'meta.section'
+  'preprocessor-rule-disabled':
+    'begin': '^\\s*(#(if)\\s+(0)\\b).*'
     'captures':
-      '2': 'constant.language.robotc'
-    'match': '(\[)(baudRate(1200|2400|4800|9600|14400|19200|28800|38400|57600|76800|100000|115200|200000|230400|250000|Undefined)|SENDFILE|SEARCH|STOPSEARCH|CONNECT|DISCONNECT(ALL)?|REMOVEDEVICE|VISIBILITY|SETCMDMODE|OPENSTREAM|SENDDATA|FACTORYRESET|BT(ON|OFF)|SETBTNAME|EXTREAD|PinReq|CONNECTREQ|IDLE|LinkQualityReq|op(SetRawDataMode|SetDefaultPIN|GetDefaultPIN|SetSessionPIN|GetSessionPIN|ResetSessionPIN|GetFriendlyName|GetBTAddress|GetMyContactInfo)|k(NoButton|ExitButton|RightButton|LeftButton|EnterButton)|ioRslt(Success|InProgress|ReqPIN|NoMoreHandles|NoSpace|EofExpected|EndOfFile|NotLinearFile|FileNotFound|HandleAlreadyClosed|NoLinearSpace|UndefinedError|FileIsBusy|NoWriteBuffers|AppendNotPossible|File(IsFull|Exists)|ModuleNotFound|OutOfBoundery|Illegal(Filename|Handle)|BT(Busy|ConnectFail|Timeout)|FileTx(Timeout|DSTExists|SRCMissing|StreamError|CloseError)|Comm(ChannelBusError|BufferFull|ChannelBad|ChannelNotReady)|CommPending|EmptyMailbox|BadArgs)|ERR_(COMM_BUFFER_FULL|COMM_CHAN_INVALID|INVALID_(PORT|FIELD|QUEUE|SIZE))|NO_ERR|STAT_COMM_PENDING|ERR_COMM_(CHAN_NOT_READY|BUS_ERR)|mailbox(1-20)|mtr(NoReg|SpeedReg|SyncRegMaster|RegSlave|EncoderReg)|runState(Idle|RampUp|Running|RampDown|HoldPosition)|joy1_(x1|x2|y1|y2|Buttons|TopHat)|s[1-4]|in[1-16]|dgtl[1-12]|I2C_[1-8]|angl[0-5]|uart(SystemCommPort|UserControl|VEXLCD|XBeeZigBee|XBeeWiFi|CMUCAM|SerialGPS)|sound(Blip|BeepBeet|DownwardTones|UpwardTones|LowBuzz|FastUpwardTones|ShortBlip|Exception|LowBuzzShort)|synch(None|A(B|C)|B(A|C)|C(A|B))|T[1-4]|uart(One|Two)|UART[0-3]|Ch[1-6](Xmtr2)?|Btn([5-8](U|D)|[7-8](L|R))(Xmtr2)?|Accel(X|Y|Z)(Xmtr2)?|vr(NoXmiters|Xmit[1-2]|Bit2|CompetitionSwitch|ResetSlave|GameController|AutonomousMode|Disabled))(\])'
-  }
+      '1':
+        'name': 'meta.preprocessor.robotc'
+      '2':
+        'name': 'keyword.control.import.if.robotc'
+      '3':
+        'name': 'constant.numeric.preprocessor.robotc'
+    'end': '^\\s*(#\\s*(endif)\\b)'
+    'patterns': [
+      {
+        'begin': '^\\s*(#\\s*(else)\\b)'
+        'captures':
+          '1':
+            'name': 'meta.preprocessor.robotc'
+          '2':
+            'name': 'keyword.control.import.else.robotc'
+        'end': '(?=^\\s*#\\s*endif\\b)'
+        'patterns': [
+          {
+            'include': '$base'
+          }
+        ]
+      }
+      {
+        'begin': ''
+        'end': '(?=^\\s*#\\s*(else|endif)\\b)'
+        'name': 'comment.block.preprocessor.if-branch'
+        'patterns': [
+          {
+            'include': '#disabled'
+          }
+          {
+            'include': '#pragma-mark'
+          }
+        ]
+      }
+    ]
+  'preprocessor-rule-disabled-block':
+    'begin': '^\\s*(#(if)\\s+(0)\\b).*'
+    'captures':
+      '1':
+        'name': 'meta.preprocessor.robotc'
+      '2':
+        'name': 'keyword.control.import.if.robotc'
+      '3':
+        'name': 'constant.numeric.preprocessor.robotc'
+    'end': '^\\s*(#\\s*(endif)\\b)'
+    'patterns': [
+      {
+        'begin': '^\\s*(#\\s*(else)\\b)'
+        'captures':
+          '1':
+            'name': 'meta.preprocessor.robotc'
+          '2':
+            'name': 'keyword.control.import.else.robotc'
+        'end': '(?=^\\s*#\\s*endif\\b)'
+        'patterns': [
+          {
+            'include': '#block_innards'
+          }
+        ]
+      }
+      {
+        'begin': ''
+        'end': '(?=^\\s*#\\s*(else|endif)\\b)'
+        'name': 'comment.block.preprocessor.if-branch.in-block'
+        'patterns': [
+          {
+            'include': '#disabled'
+          }
+          {
+            'include': '#pragma-mark'
+          }
+        ]
+      }
+    ]
+  'preprocessor-rule-enabled':
+    'begin': '^\\s*(#(if)\\s+(0*1)\\b)'
+    'captures':
+      '1':
+        'name': 'meta.preprocessor.robotc'
+      '2':
+        'name': 'keyword.control.import.if.robotc'
+      '3':
+        'name': 'constant.numeric.preprocessor.robotc'
+    'end': '^\\s*(#\\s*(endif)\\b)'
+    'patterns': [
+      {
+        'begin': '^\\s*(#\\s*(else)\\b).*'
+        'captures':
+          '1':
+            'name': 'meta.preprocessor.robotc'
+          '2':
+            'name': 'keyword.control.import.else.robotc'
+        'contentName': 'comment.block.preprocessor.else-branch'
+        'end': '(?=^\\s*#\\s*endif\\b)'
+        'patterns': [
+          {
+            'include': '#disabled'
+          }
+          {
+            'include': '#pragma-mark'
+          }
+        ]
+      }
+      {
+        'begin': ''
+        'end': '(?=^\\s*#\\s*(else|endif)\\b)'
+        'patterns': [
+          {
+            'include': '$base'
+          }
+        ]
+      }
+    ]
+  'preprocessor-rule-enabled-block':
+    'begin': '^\\s*(#(if)\\s+(0*1)\\b)'
+    'captures':
+      '1':
+        'name': 'meta.preprocessor.robotc'
+      '2':
+        'name': 'keyword.control.import.if.robotc'
+      '3':
+        'name': 'constant.numeric.preprocessor.robotc'
+    'end': '^\\s*(#\\s*(endif)\\b)'
+    'patterns': [
+      {
+        'begin': '^\\s*(#\\s*(else)\\b).*'
+        'captures':
+          '1':
+            'name': 'meta.preprocessor.robotc'
+          '2':
+            'name': 'keyword.control.import.else.robotc'
+        'contentName': 'comment.block.preprocessor.else-branch.in-block'
+        'end': '(?=^\\s*#\\s*endif\\b)'
+        'patterns': [
+          {
+            'include': '#disabled'
+          }
+          {
+            'include': '#pragma-mark'
+          }
+        ]
+      }
+      {
+        'begin': ''
+        'end': '(?=^\\s*#\\s*(else|endif)\\b)'
+        'patterns': [
+          {
+            'include': '#block_innards'
+          }
+        ]
+      }
+    ]
+  'preprocessor-rule-other':
+    'begin': '^\\s*(#\\s*(if(n?def)?)\\b.*?(?:(?=(?://|/\\*))|$))'
+    'captures':
+      '1':
+        'name': 'meta.preprocessor.robotc'
+      '2':
+        'name': 'keyword.control.import.robotc'
+    'end': '^\\s*(#\\s*(endif)\\b)'
+    'patterns': [
+      {
+        'include': '$base'
+      }
+    ]
+  'preprocessor-rule-other-block':
+    'begin': '^\\s*(#\\s*(if(n?def)?)\\b.*?(?:(?=(?://|/\\*))|$))'
+    'captures':
+      '1':
+        'name': 'meta.preprocessor.robotc'
+      '2':
+        'name': 'keyword.control.import.robotc'
+    'end': '^\\s*(#\\s*(endif)\\b)'
+    'patterns': [
+      {
+        'include': '#block_innards'
+      }
+    ]
+  'sizeof':
+    'match': '\\b(sizeof)\\b'
+    'name': 'keyword.operator.sizeof.robotc'
+  'string_escaped_char':
+    'patterns': [
+      {
+        'match': '\\\\(\\\\|[abefnprtv\'"?]|[0-3]\\d{,2}|[4-7]\\d?|x[a-fA-F0-9]{,2}|u[a-fA-F0-9]{,4}|U[a-fA-F0-9]{,8})'
+        'name': 'constant.character.escape.robotc'
+      }
+      {
+        'match': '\\\\.'
+        'name': 'invalid.illegal.unknown-escape.robotc'
+      }
+    ]
+  'string_placeholder':
+    'patterns': [
+      {
+        'match': '(?x)%\n    \t\t\t\t\t\t(\\d+\\$)?                             # field (argument #)\n    \t\t\t\t\t\t[#0\\- +\']*                           # flags\n    \t\t\t\t\t\t[,;:_]?                              # separator character (AltiVec)\n    \t\t\t\t\t\t((-?\\d+)|\\*(-?\\d+\\$)?)?              # minimum field width\n    \t\t\t\t\t\t(\\.((-?\\d+)|\\*(-?\\d+\\$)?)?)?         # precision\n    \t\t\t\t\t\t(hh|h|ll|l|j|t|z|q|L|vh|vl|v|hv|hl)? # length modifier\n    \t\t\t\t\t\t[diouxXDOUeEfFgGaACcSspn%]           # conversion type\n    \t\t\t\t\t'
+        'name': 'constant.other.placeholder.robotc'
+      }
+      {
+        'match': '%'
+        'name': 'invalid.illegal.placeholder.robotc'
+      }
  ]
