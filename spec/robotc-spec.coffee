@@ -7,7 +7,7 @@ describe 'Language-ROBOTC', ->
     waitsForPromise ->
       atom.packages.activatePackage('language-robotc')
 
-  describe "C", ->
+  describe "ROBOTC", ->
     beforeEach ->
       grammar = atom.grammars.grammarForScopeName('source.robotc')
 
