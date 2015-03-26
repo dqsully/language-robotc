@@ -14,12 +14,6 @@
     'match': '\\b((Backup|n(Avg|Immediate))BatteryLevel|bMotorReflected|motor(Type)?|blfiAutonomousMode|nVexRCReceiveState|nVexMasterVersion|version|bVEXNETActive|nIfiSPIMsgCounts|nVexRCReceiveState|vexRT|Ch[1-6](Xmtr2)?|vexRT|Ch[1-6](Xmtr2)?|Btn([5-8](U|D)|[7-8](L|R))(Xmtr2)?|Accel(X|Y|Z)(Xmtr2)?|b(PlaySounds|Sound(Active|QueueAvailable))|k((DefaultTask|Low|High)Priority)|n(SchedulePriority|ClockMinutes|(Pgm|Sys)Time))\\b'
     'name': 'variable.language.robotc'
   }
-  # RobotC Enums
-  {
-    'captures':
-      '2': 'constant.language.robotc'
-    'match': '(\[)(baudRate(1200|2400|4800|9600|14400|19200|28800|38400|57600|76800|100000|115200|200000|230400|250000|Undefined)|SENDFILE|SEARCH|STOPSEARCH|CONNECT|DISCONNECT(ALL)?|REMOVEDEVICE|VISIBILITY|SETCMDMODE|OPENSTREAM|SENDDATA|FACTORYRESET|BT(ON|OFF)|SETBTNAME|EXTREAD|PinReq|CONNECTREQ|IDLE|LinkQualityReq|op(SetRawDataMode|SetDefaultPIN|GetDefaultPIN|SetSessionPIN|GetSessionPIN|ResetSessionPIN|GetFriendlyName|GetBTAddress|GetMyContactInfo)|k(NoButton|ExitButton|RightButton|LeftButton|EnterButton)|ioRslt(Success|InProgress|ReqPIN|NoMoreHandles|NoSpace|EofExpected|EndOfFile|NotLinearFile|FileNotFound|HandleAlreadyClosed|NoLinearSpace|UndefinedError|FileIsBusy|NoWriteBuffers|AppendNotPossible|File(IsFull|Exists)|ModuleNotFound|OutOfBoundery|Illegal(Filename|Handle)|BT(Busy|ConnectFail|Timeout)|FileTx(Timeout|DSTExists|SRCMissing|StreamError|CloseError)|Comm(ChannelBusError|BufferFull|ChannelBad|ChannelNotReady)|CommPending|EmptyMailbox|BadArgs)|ERR_(COMM_BUFFER_FULL|COMM_CHAN_INVALID|INVALID_(PORT|FIELD|QUEUE|SIZE))|NO_ERR|STAT_COMM_PENDING|ERR_COMM_(CHAN_NOT_READY|BUS_ERR)|mailbox(1-20)|mtr(NoReg|SpeedReg|SyncRegMaster|RegSlave|EncoderReg)|runState(Idle|RampUp|Running|RampDown|HoldPosition)|joy1_(x1|x2|y1|y2|Buttons|TopHat)|s[1-4]|in[1-16]|dgtl[1-12]|I2C_[1-8]|angl[0-5]|uart(SystemCommPort|UserControl|VEXLCD|XBeeZigBee|XBeeWiFi|CMUCAM|SerialGPS)|sound(Blip|BeepBeet|DownwardTones|UpwardTones|LowBuzz|FastUpwardTones|ShortBlip|Exception|LowBuzzShort)|synch(None|A(B|C)|B(A|C)|C(A|B))|T[1-4]|uart(One|Two)|UART[0-3]|Ch[1-6](Xmtr2)?|Btn([5-8](U|D)|[7-8](L|R))(Xmtr2)?|Accel(X|Y|Z)(Xmtr2)?|vr(NoXmiters|Xmit[1-2]|Bit2|CompetitionSwitch|ResetSlave|GameController|AutonomousMode|Disabled))(\])'
-  }
   # RobotC Variable Types
   {
     'match': '\\b(task|word|byte|ubyte|T(BaudRate|BTCommands|Buttons|FileHandle|FileIOResult|I2CStatus|MailboxIDs|MotorRegulation|NxtRunState|PCJoystick|SerialPortMode|Sounds|SynchedMotors|Timers|UARTs|Vex(Joysticks|ReceiverState))|tSensors)\\b'
@@ -41,4 +35,10 @@
       '2':
         'name': 'support.function.robotc'
     'match': '(\\s*)\\b(a(bs|cos|sin|tan|tof|toi)c(eil|os(Degrees)?)|degreesToRadians|exp|floor|log(10)?|pow|ra(diansToDegrees|rand(Long)?)|s(gn|in(Degrees)?|rand|qrt)|s(printf|trc(at|mp|py)|n(cat|cmp))|String(Delete|F(ind|ormat|romChars)))\\b'
+  # RobotC Enums
+  {
+    'captures':
+      '2': 'constant.language.robotc'
+    'match': '(\[)(baudRate(1200|2400|4800|9600|14400|19200|28800|38400|57600|76800|100000|115200|200000|230400|250000|Undefined)|SENDFILE|SEARCH|STOPSEARCH|CONNECT|DISCONNECT(ALL)?|REMOVEDEVICE|VISIBILITY|SETCMDMODE|OPENSTREAM|SENDDATA|FACTORYRESET|BT(ON|OFF)|SETBTNAME|EXTREAD|PinReq|CONNECTREQ|IDLE|LinkQualityReq|op(SetRawDataMode|SetDefaultPIN|GetDefaultPIN|SetSessionPIN|GetSessionPIN|ResetSessionPIN|GetFriendlyName|GetBTAddress|GetMyContactInfo)|k(NoButton|ExitButton|RightButton|LeftButton|EnterButton)|ioRslt(Success|InProgress|ReqPIN|NoMoreHandles|NoSpace|EofExpected|EndOfFile|NotLinearFile|FileNotFound|HandleAlreadyClosed|NoLinearSpace|UndefinedError|FileIsBusy|NoWriteBuffers|AppendNotPossible|File(IsFull|Exists)|ModuleNotFound|OutOfBoundery|Illegal(Filename|Handle)|BT(Busy|ConnectFail|Timeout)|FileTx(Timeout|DSTExists|SRCMissing|StreamError|CloseError)|Comm(ChannelBusError|BufferFull|ChannelBad|ChannelNotReady)|CommPending|EmptyMailbox|BadArgs)|ERR_(COMM_BUFFER_FULL|COMM_CHAN_INVALID|INVALID_(PORT|FIELD|QUEUE|SIZE))|NO_ERR|STAT_COMM_PENDING|ERR_COMM_(CHAN_NOT_READY|BUS_ERR)|mailbox(1-20)|mtr(NoReg|SpeedReg|SyncRegMaster|RegSlave|EncoderReg)|runState(Idle|RampUp|Running|RampDown|HoldPosition)|joy1_(x1|x2|y1|y2|Buttons|TopHat)|s[1-4]|in[1-16]|dgtl[1-12]|I2C_[1-8]|angl[0-5]|uart(SystemCommPort|UserControl|VEXLCD|XBeeZigBee|XBeeWiFi|CMUCAM|SerialGPS)|sound(Blip|BeepBeet|DownwardTones|UpwardTones|LowBuzz|FastUpwardTones|ShortBlip|Exception|LowBuzzShort)|synch(None|A(B|C)|B(A|C)|C(A|B))|T[1-4]|uart(One|Two)|UART[0-3]|Ch[1-6](Xmtr2)?|Btn([5-8](U|D)|[7-8](L|R))(Xmtr2)?|Accel(X|Y|Z)(Xmtr2)?|vr(NoXmiters|Xmit[1-2]|Bit2|CompetitionSwitch|ResetSlave|GameController|AutonomousMode|Disabled))(\])'
+  }
  ]
