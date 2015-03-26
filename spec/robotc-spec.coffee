@@ -31,7 +31,7 @@ describe 'Language-ROBOTC', ->
       '''
 
       expect(lines[0][0]).toEqual value: 'TBaudRate', scopes: ["source.robotc", "storage.type.robotc"]
-      expect(lines[0][3]).toEqual value: 'baudRateUndefined', scopes: ["source.robotc", "meta.enum.robotc"]
+      expect(lines[0][2]).toEqual value: 'baudRateUndefined', scopes: ["source.robotc", "meta.enum.robotc", "constant.language.robotc"]
 
     describe "indentation", ->
       editor = null
